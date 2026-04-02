@@ -7,7 +7,7 @@ A complete redesign and rebuild of the INDUSQA consultancy and certification ser
 - **Modern UI/UX**: Clean, professional, and responsive design built with HTML, CSS, and Vanilla JS.
 - **Admin Panel**: A simple, secure dashboard to manage blogs and view contact form submissions.
 - **Blog System**: Dynamic blog loading from JSON, with administrative control.
-- **Service Sections**: Detailed content for ISO 27001, GDPR, SOC 2, and CMMI.
+- **Service Sections**: Detailed content for ISO 27001, GDPR, DPDPA, HIPAA, SOC 2, and CMMI.
 - **Interactive Elements**: Stats counters, smooth scrolling, and hidden easter eggs.
 - **SEO & Performance**: Optimized meta tags, semantic HTML, and fast loading times.
 

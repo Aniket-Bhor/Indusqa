@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post | INDUSQA</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .post-header {
+            padding: 100px 0 50px;
+            background-color: var(--light-bg);
+            text-align: center;
+        }
+        .post-meta {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .post-title {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .post-featured-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin-bottom: 50px;
+            box-shadow: var(--box-shadow);
+        }
+        .post-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 80px;
+            color: #444;
+        }
+        .post-content p {
+            margin-bottom: 25px;
+        }
+        .back-to-blog {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="../index.html" class="logo">
+                    <img src="../images/logo.png" alt="INDUSQA Logo">
+                </a>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="postContainer">
+        <!-- Post content will be loaded here -->
+        <div class="container" style="padding: 150px 0; text-align: center;">
+            <p>Loading post...</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 INDUSQA. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const slug = urlParams.get('slug');
+            const postContainer = document.getElementById('postContainer');
+
+            const renderPost = (post) => {
+                const imageHtml = post.image ? `<img src="${post.image}" class="post-featured-image" alt="${post.title}">` : '';
+                postContainer.innerHTML = `
+                    <div class="post-header">
+                        <div class="container">
+                            <a href="blog.html" class="back-to-blog">← Back to Insights</a>
+                            <div class="post-meta">${new Date(post.date).toLocaleDateString()} | By ${post.author}</div>
+                            <h1 class="post-title">${post.title}</h1>
+                        </div>
+                    </div>
+                    <div class="container">
+                        ${imageHtml}
+                        <article class="post-content">
+                            ${post.content.split('\n').map(p => `<p>${p}</p>`).join('')}
+                        </article>
+                    </div>
+                `;
+            };
+
+            // 1. Search in JSON
+            fetch('../data/blogs.json')
+                .then(res => res.json())
+                .then(data => {
+                    const post = data.posts.find(p => p.slug === slug);
+                    if (post) {
+                        renderPost(post);
+                    } else {
+                        // 2. Search in LocalStorage
+                        const localBlogs = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
+                        const localPost = localBlogs.find(p => p.slug === slug);
+                        if (localPost) {
+                            renderPost(localPost);
+                        } else {
+                            postContainer.innerHTML = '<div class="container" style="padding: 150px 0; text-align: center;"><h1>Post Not Found</h1><a href="blog.html" class="cta-button">Back to Blog</a></div>';
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                });
+        });
+    </script>
+</body>
+</html>

@@ -106,7 +106,7 @@
     <div id="dashboardSection" style="display: none;">
         <aside class="admin-sidebar">
             <div class="logo" style="margin-bottom: 40px;">
-                <img src="../images/logo.jpeg" alt="INDUSQA" style="filter: brightness(0) invert(1);">
+                <img src="../images/logo.png" alt="INDUSQA" style="filter: brightness(0) invert(1);">
             </div>
             <ul class="admin-nav">
                 <li><a href="#" class="active" onclick="showTab('blogs')"><i class="fas fa-newspaper"></i> Blogs</a></li>
@@ -124,21 +124,25 @@
 
             <div id="blogsTab" class="tab-content">
                 <div class="admin-card">
-                    <h3>Add New Blog Post</h3>
-                    <form id="addBlogForm" style="margin-top: 20px;">
+                    <h3 id="formTitle">Add New Blog Post</h3>
+                    <form id="blogForm" style="margin-top: 20px;">
+                        <input type="hidden" id="editIndex">
                         <div class="form-group">
                             <label>Title</label>
                             <input type="text" id="blogTitle" required>
                         </div>
                         <div class="form-group">
-                            <label>Image URL</label>
-                            <input type="text" id="blogImage" required>
+                            <label>Image URL (Optional)</label>
+                            <input type="text" id="blogImage">
                         </div>
                         <div class="form-group">
                             <label>Content</label>
                             <textarea id="blogContent" rows="5" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Publish Blog</button>
+                        <div style="display: flex; gap: 10px;">
+                            <button type="submit" id="submitBtn" class="btn btn-primary">Publish Blog</button>
+                            <button type="button" id="cancelBtn" class="btn" style="display: none; background: #6c757d; color: white;" onclick="resetForm()">Cancel Edit</button>
+                        </div>
                     </form>
                 </div>
 
@@ -216,7 +220,24 @@
         }
 
         // Blog Management (LocalStorage for Prototype)
-        function loadBlogs() {
+        async function loadBlogs() {
+            // Load from JSON first if not already in LocalStorage
+            if (!localStorage.getItem('indusqa_static_loaded')) {
+                try {
+                    const res = await fetch('../data/blogs.json');
+                    const data = await res.json();
+                    let existing = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
+                    // Add static blogs if they don't exist by slug
+                    data.posts.forEach(p => {
+                        if (!existing.find(e => e.slug === p.slug)) {
+                            existing.push(p);
+                        }
+                    });
+                    localStorage.setItem('indusqa_blogs', JSON.stringify(existing));
+                    localStorage.setItem('indusqa_static_loaded', 'true');
+                } catch (e) { console.error("Static blogs fail", e); }
+            }
+
             const blogs = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
             const tbody = document.querySelector('#blogTable tbody');
             tbody.innerHTML = '';
@@ -228,7 +249,8 @@
                     <td>${blog.date}</td>
                     <td>${blog.author}</td>
                     <td>
-                        <button class="btn btn-danger" onclick="deleteBlog(${index})">Delete</button>
+                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="editBlog(${index})">Edit</button>
+                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;" onclick="deleteBlog(${index})">Delete</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -236,29 +258,63 @@
         }
 
         function deleteBlog(index) {
-            let blogs = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
-            blogs.splice(index, 1);
-            localStorage.setItem('indusqa_blogs', JSON.stringify(blogs));
-            loadBlogs();
+            if(confirm('Are you sure you want to delete this post?')) {
+                let blogs = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
+                blogs.splice(index, 1);
+                localStorage.setItem('indusqa_blogs', JSON.stringify(blogs));
+                loadBlogs();
+            }
         }
 
-        document.getElementById('addBlogForm').addEventListener('submit', (e) => {
+        function editBlog(index) {
+            const blogs = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
+            const blog = blogs[index];
+            
+            document.getElementById('editIndex').value = index;
+            document.getElementById('blogTitle').value = blog.title;
+            document.getElementById('blogImage').value = blog.image || '';
+            document.getElementById('blogContent').value = blog.content;
+            
+            document.getElementById('formTitle').innerText = 'Edit Blog Post';
+            document.getElementById('submitBtn').innerText = 'Update Blog';
+            document.getElementById('cancelBtn').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            document.getElementById('blogForm').reset();
+            document.getElementById('editIndex').value = '';
+            document.getElementById('formTitle').innerText = 'Add New Blog Post';
+            document.getElementById('submitBtn').innerText = 'Publish Blog';
+            document.getElementById('cancelBtn').style.display = 'none';
+        }
+
+        document.getElementById('blogForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const newBlog = {
-                title: document.getElementById('blogTitle').value,
+            const title = document.getElementById('blogTitle').value;
+            const editIndex = document.getElementById('editIndex').value;
+            
+            const blogData = {
+                title: title,
                 image: document.getElementById('blogImage').value,
                 content: document.getElementById('blogContent').value,
-                date: new Date().toLocaleDateString(),
-                author: 'Admin'
+                date: editIndex !== "" ? JSON.parse(localStorage.getItem('indusqa_blogs'))[editIndex].date : new Date().toLocaleDateString(),
+                author: 'Admin',
+                slug: title.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '')
             };
             
             let blogs = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
-            blogs.push(newBlog);
-            localStorage.setItem('indusqa_blogs', JSON.stringify(blogs));
             
-            document.getElementById('addBlogForm').reset();
+            if (editIndex !== "") {
+                blogs[editIndex] = blogData;
+            } else {
+                blogs.push(blogData);
+            }
+            
+            localStorage.setItem('indusqa_blogs', JSON.stringify(blogs));
+            resetForm();
             loadBlogs();
-            alert('Blog published successfully!');
+            alert(editIndex !== "" ? 'Blog updated successfully!' : 'Blog published successfully!');
         });
 
         function loadMessages() {

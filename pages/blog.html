@@ -61,7 +61,7 @@
         <div class="container">
             <nav>
                 <a href="../index.html" class="logo">
-                    <img src="../images/logo.jpeg" alt="INDUSQA Logo">
+                    <img src="../images/logo.png" alt="INDUSQA Logo">
                 </a>
                 <ul class="nav-links">
                     <li><a href="../index.html">Home</a></li>
@@ -93,7 +93,28 @@
 
     <footer>
         <div class="container">
-            <div class="footer-bottom">
+            <div class="footer-content" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div class="footer-section">
+                    <h3>INDUSQA</h3>
+                    <p>Your partner in excellence and international standards for over 30 years.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> <a href="https://maps.app.goo.gl/J2RHTH9EasSBhWcL9" target="_blank" style="color: inherit; text-decoration: none;">Vashi, Navi Mumbai, India</a></p>
+                    <p><i class="fas fa-phone"></i> +91 90042 51849</p>
+                    <p><i class="fas fa-envelope"></i> info@indusqa.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom" style="padding-top: 20px;">
                 <p>&copy; 2026 INDUSQA. All rights reserved.</p>
             </div>
         </div>
@@ -101,30 +122,48 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('../data/blogs.json')
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('blogContainer');
-                    container.innerHTML = '';
-                    data.posts.forEach(post => {
-                        const card = document.createElement('div');
-                        card.className = 'blog-card';
-                        card.innerHTML = `
-                            <img src="${post.image}" alt="${post.title}">
-                            <div class="blog-card-content">
-                                <div class="blog-date">${new Date(post.date).toLocaleDateString()} | ${post.author}</div>
-                                <h3 class="blog-title">${post.title}</h3>
-                                <p class="blog-excerpt">${post.content.substring(0, 100)}...</p>
-                                <a href="blog-detail.html?slug=${post.slug}" class="read-more">Read Full Article →</a>
-                            </div>
-                        `;
-                        container.appendChild(card);
-                    });
-                })
-                .catch(err => {
-                    console.error('Error loading blogs:', err);
-                    document.getElementById('blogContainer').innerHTML = '<p>Unable to load blog posts at this time.</p>';
+            const container = document.getElementById('blogContainer');
+            
+            // Function to render posts
+            const renderPosts = (posts) => {
+                posts.forEach(post => {
+                    const card = document.createElement('div');
+                    card.className = 'blog-card';
+                    
+                    // Conditionally render image only if it exists
+                    const imageHtml = post.image ? `<img src="${post.image}" alt="${post.title}">` : '';
+                    
+                    card.innerHTML = `
+                        ${imageHtml}
+                        <div class="blog-card-content">
+                            <div class="blog-date">${new Date(post.date).toLocaleDateString()} | ${post.author}</div>
+                            <h3 class="blog-title">${post.title}</h3>
+                            <p class="blog-excerpt">${post.content.substring(0, 100)}...</p>
+                            <a href="blog-detail.html?slug=${post.slug || '#'}" class="read-more">Read Full Article →</a>
+                        </div>
+                    `;
+                    container.appendChild(card);
                 });
+            };
+
+            // Load ONLY from LocalStorage (since admin now syncs static JSON blogs)
+            container.innerHTML = '';
+            const localBlogs = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
+            
+            if (localBlogs.length > 0) {
+                renderPosts(localBlogs);
+            } else {
+                // Fallback: If LocalStorage is empty, load from JSON (first time only)
+                fetch('../data/blogs.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        renderPosts(data.posts);
+                    })
+                    .catch(err => {
+                        console.error('Error loading blogs:', err);
+                        container.innerHTML = '<p>No blog posts found.</p>';
+                    });
+            }
         });
     </script>
     <script src="../js/main.js"></script>
