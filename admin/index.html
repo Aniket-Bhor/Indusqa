@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | INDUSQA</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .admin-sidebar {
+            width: 250px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 30px 20px;
+        }
+        .admin-main {
+            margin-left: 250px;
+            padding: 40px;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        .admin-nav li {
+            margin-bottom: 20px;
+        }
+        .admin-nav a {
+            color: #ccc;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .admin-nav a.active {
+            color: var(--white);
+            background-color: var(--secondary-color);
+        }
+        .admin-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-primary { background-color: var(--secondary-color); color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background: white;
+            box-shadow: var(--box-shadow);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <div id="loginSection" class="login-container">
+        <h2 style="text-align: center; margin-bottom: 30px;">Admin Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        </form>
+    </div>
+
+    <div id="dashboardSection" style="display: none;">
+        <aside class="admin-sidebar">
+            <div class="logo" style="margin-bottom: 40px;">
+                <img src="../images/logo.jpeg" alt="INDUSQA" style="filter: brightness(0) invert(1);">
+            </div>
+            <ul class="admin-nav">
+                <li><a href="#" class="active" onclick="showTab('blogs')"><i class="fas fa-newspaper"></i> Blogs</a></li>
+                <li><a href="#" onclick="showTab('messages')"><i class="fas fa-envelope"></i> Messages</a></li>
+                <li><a href="#" onclick="showTab('subscribers')"><i class="fas fa-users"></i> Subscribers</a></li>
+                <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="admin-main">
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <h2>Dashboard</h2>
+                <div class="user-info">Welcome, Admin</div>
+            </header>
+
+            <div id="blogsTab" class="tab-content">
+                <div class="admin-card">
+                    <h3>Add New Blog Post</h3>
+                    <form id="addBlogForm" style="margin-top: 20px;">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="blogTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input type="text" id="blogImage" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Content</label>
+                            <textarea id="blogContent" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Publish Blog</button>
+                    </form>
+                </div>
+
+                <div class="admin-card">
+                    <h3>Existing Posts</h3>
+                    <table id="blogTable">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Author</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Blogs will be listed here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="messagesTab" class="tab-content" style="display: none;">
+                <div class="admin-card">
+                    <h3>Contact Form Submissions</h3>
+                    <table id="messageTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Simple Auth Logic
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            if (user === 'admin' && pass === 'indusqa2026') {
+                localStorage.setItem('admin_logged_in', 'true');
+                showDashboard();
+            } else {
+                alert('Invalid credentials!');
+            }
+        });
+
+        function showDashboard() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+            loadBlogs();
+            loadMessages();
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_logged_in');
+            window.location.reload();
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
+            
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+            event.currentTarget.classList.add('active');
+        }
+
+        // Blog Management (LocalStorage for Prototype)
+        function loadBlogs() {
+            const blogs = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
+            const tbody = document.querySelector('#blogTable tbody');
+            tbody.innerHTML = '';
+            
+            blogs.forEach((blog, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${blog.title}</td>
+                    <td>${blog.date}</td>
+                    <td>${blog.author}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteBlog(${index})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function deleteBlog(index) {
+            let blogs = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
+            blogs.splice(index, 1);
+            localStorage.setItem('indusqa_blogs', JSON.stringify(blogs));
+            loadBlogs();
+        }
+
+        document.getElementById('addBlogForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newBlog = {
+                title: document.getElementById('blogTitle').value,
+                image: document.getElementById('blogImage').value,
+                content: document.getElementById('blogContent').value,
+                date: new Date().toLocaleDateString(),
+                author: 'Admin'
+            };
+            
+            let blogs = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
+            blogs.push(newBlog);
+            localStorage.setItem('indusqa_blogs', JSON.stringify(blogs));
+            
+            document.getElementById('addBlogForm').reset();
+            loadBlogs();
+            alert('Blog published successfully!');
+        });
+
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('contact_submissions') || '[]');
+            const tbody = document.querySelector('#messageTable tbody');
+            tbody.innerHTML = '';
+            messages.forEach(msg => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${msg.name}</td>
+                    <td>${msg.email}</td>
+                    <td>${msg.message}</td>
+                    <td>${new Date(msg.date).toLocaleDateString()}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Check login on load
+        if (localStorage.getItem('admin_logged_in') === 'true') {
+            showDashboard();
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</body>
+</html>

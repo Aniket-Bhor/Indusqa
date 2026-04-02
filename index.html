@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INDUSQA | Leading Quality & Certification Consultancy</title>
+    <meta name="description" content="INDUSQA provides expert consultancy and certification services for ISO 27001, GDPR, SOC2, CMMI, and more. Over 30 years of industry experience.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Hero Section */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(26, 42, 68, 0.8), rgba(26, 42, 68, 0.8)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            color: var(--white);
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            animation: fadeInUp 1s ease 0.2s;
+            animation-fill-mode: both;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stats Section */
+        .stats {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 60px 0;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--secondary-color);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Services Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition-speed);
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-bottom: 5px solid var(--secondary-color);
+        }
+
+        .service-card i {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background-color: var(--light-bg);
+        }
+
+        .testimonial-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            font-style: italic;
+        }
+
+        .client-info {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            font-style: normal;
+        }
+
+        .client-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.jpeg" alt="INDUSQA Logo">
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="pages/about.html">About</a></li>
+                    <li><a href="pages/services.html">Services</a></li>
+                    <li><a href="pages/blog.html">Blog</a></li>
+                    <li><a href="pages/contact.html">Contact</a></li>
+                </ul>
+                <a href="pages/contact.html" class="cta-button">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Redefining Standards, Empowering Growth</h1>
+                <p>Leading the Way in Consultancy and Certification for Over Three Decades. We help organizations achieve excellence through global standards.</p>
+                <div class="hero-btns">
+                    <a href="pages/services.html" class="cta-button">Our Services</a>
+                    <a href="pages/contact.html" class="cta-button" style="background: transparent; border: 2px solid var(--white);">Contact Us</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="30">0</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="500">0</span>
+                        <span class="stat-label">Certifications</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="50">0</span>
+                        <span class="stat-label">Expert Consultants</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="200">0</span>
+                        <span class="stat-label">Happy Clients</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our Core Competencies</h2>
+                    <p>Comprehensive solutions for modern business compliance and quality management.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <i class="fas fa-shield-halved"></i>
+                        <h3>Information Security</h3>
+                        <p>Protect your data assets with ISO 27001 implementation and audits.</p>
+                        <a href="pages/services.html#iso27001" style="color: var(--secondary-color); font-weight: 600;">Learn More →</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-user-lock"></i>
+                        <h3>Privacy Management</h3>
+                        <p>GDPR and ISO 27701 compliance for robust data privacy frameworks.</p>
+                        <a href="pages/services.html#privacy" style="color: var(--secondary-color); font-weight: 600;">Learn More →</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-server"></i>
+                        <h3>SOC 2 Compliance</h3>
+                        <p>Build trust with your clients through Service Organization Control (SOC) 2 reporting.</p>
+                        <a href="pages/services.html#soc2" style="color: var(--secondary-color); font-weight: 600;">Learn More →</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>CMMI Consulting</h3>
+                        <p>Improve your process maturity and performance with Capability Maturity Model Integration.</p>
+                        <a href="pages/services.html#cmmi" style="color: var(--secondary-color); font-weight: 600;">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="container">
+                <div class="section-title">
+                    <h2>What Our Clients Say</h2>
+                    <p>Trusted by industry leaders worldwide.</p>
+                </div>
+                <div class="testimonial-container">
+                    <div class="testimonial-card">
+                        <p>"INDUSQA's expert consultants were instrumental in our ISO 27001 certification. Their process-based approach is truly transformative."</p>
+                        <div class="client-info">
+                            <div>
+                                <strong>John Doe</strong><br>
+                                <span>CTO, Tech Solutions Inc.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"Professional, efficient, and accurate. INDUSQA helped us navigate the complexities of GDPR compliance with ease."</p>
+                        <div class="client-info">
+                            <div>
+                                <strong>Jane Smith</strong><br>
+                                <span>Head of Compliance, Global Education</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>INDUSQA</h3>
+                    <p>Your partner in excellence and international standards for over 30 years.</p>
+                    <div class="social-links" style="margin-top: 20px;">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="pages/about.html">About Us</a></li>
+                        <li><a href="pages/services.html">Services</a></li>
+                        <li><a href="pages/blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <p>Stay updated with compliance news.</p>
+                    <form id="newsletterForm" style="margin-top: 15px; display: flex;">
+                        <input type="email" placeholder="Email Address" required style="padding: 10px; border: none; border-radius: 4px 0 0 4px; width: 100%;">
+                        <button type="submit" style="background: var(--secondary-color); border: none; color: white; padding: 10px 15px; border-radius: 0 4px 4px 0; cursor: pointer;">Join</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 INDUSQA. All rights reserved. | <a href="pages/privacy.html">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | INDUSQA - Comprehensive Certification Solutions</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .service-header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .service-detail-section {
+            padding: 80px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .service-detail-section:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+        .service-flex {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        .service-flex:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .service-content {
+            flex: 1;
+        }
+        .service-image {
+            flex: 1;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        .service-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .benefit-list {
+            margin-top: 20px;
+        }
+        .benefit-list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .benefit-list i {
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="../index.html" class="logo">
+                    <img src="../images/logo.jpeg" alt="INDUSQA Logo">
+                </a>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <a href="contact.html" class="cta-button">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="service-header">
+            <div class="container">
+                <h1>Our Certification Services</h1>
+                <p>Helping your organization achieve international excellence through rigorous standards.</p>
+            </div>
+        </section>
+
+        <section id="iso27001" class="service-detail-section">
+            <div class="container service-flex">
+                <div class="service-content">
+                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Security Standard</span>
+                    <h2 style="font-size: 2.5rem; margin: 15px 0;">Information Security with ISO 27001</h2>
+                    <p>ISO 27001 is the globally recognized standard for Information Security Management Systems (ISMS). In an increasingly interconnected and data-driven world, the protection of sensitive information is paramount.</p>
+                    <ul class="benefit-list">
+                        <li><i class="fas fa-check-circle"></i> Protects your sensitive information</li>
+                        <li><i class="fas fa-check-circle"></i> Enhances client trust and reputation</li>
+                        <li><i class="fas fa-check-circle"></i> Mitigates legal and financial risks</li>
+                        <li><i class="fas fa-check-circle"></i> Provides a competitive edge</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80" alt="ISO 27001">
+                </div>
+            </div>
+        </section>
+
+        <section id="privacy" class="service-detail-section">
+            <div class="container service-flex" style="flex-direction: row-reverse;">
+                <div class="service-content">
+                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Privacy Standard</span>
+                    <h2 style="font-size: 2.5rem; margin: 15px 0;">Privacy Management with GDPR / ISO 27701</h2>
+                    <p>GDPR and ISO 27701 provide a framework for organizations to manage personal information and privacy risks effectively. We help you implement privacy-by-design and ensure compliance with global regulations.</p>
+                    <ul class="benefit-list">
+                        <li><i class="fas fa-check-circle"></i> Ensures compliance with global data protection laws</li>
+                        <li><i class="fas fa-check-circle"></i> Minimizes the risk of data breaches</li>
+                        <li><i class="fas fa-check-circle"></i> Increases operational transparency</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Privacy Management">
+                </div>
+            </div>
+        </section>
+
+        <section id="soc2" class="service-detail-section">
+            <div class="container service-flex">
+                <div class="service-content">
+                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Service Trust</span>
+                    <h2 style="font-size: 2.5rem; margin: 15px 0;">Securing Services with SOC 2</h2>
+                    <p>SOC 2 is an auditing procedure that ensures your service providers securely manage your data to protect the interests of your organization and the privacy of its clients.</p>
+                    <ul class="benefit-list">
+                        <li><i class="fas fa-check-circle"></i> Verification of security controls</li>
+                        <li><i class="fas fa-check-circle"></i> Enhanced customer confidence</li>
+                        <li><i class="fas fa-check-circle"></i> Rigorous assessment of Trust Services Criteria</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="SOC 2">
+                </div>
+            </div>
+        </section>
+
+        <section id="cmmi" class="service-detail-section">
+            <div class="container service-flex" style="flex-direction: row-reverse;">
+                <div class="service-content">
+                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Process Maturity</span>
+                    <h2 style="font-size: 2.5rem; margin: 15px 0;">CMMI (Capability Maturity Model Integration)</h2>
+                    <p>Improve your organization's process performance and maturity levels with our expert CMMI consulting services. We guide you through the journey of process definition and implementation.</p>
+                    <ul class="benefit-list">
+                        <li><i class="fas fa-check-circle"></i> Streamlines business processes</li>
+                        <li><i class="fas fa-check-circle"></i> Increases project success rates</li>
+                        <li><i class="fas fa-check-circle"></i> Promotes a culture of continuous improvement</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="CMMI">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 INDUSQA. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

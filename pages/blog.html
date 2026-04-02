@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | INDUSQA - Industry Insights & Compliance</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .blog-header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 80px 0;
+        }
+        .blog-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition-speed);
+        }
+        .blog-card:hover {
+            transform: translateY(-10px);
+        }
+        .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .blog-card-content {
+            padding: 25px;
+        }
+        .blog-date {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .blog-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        .blog-excerpt {
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .read-more {
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="../index.html" class="logo">
+                    <img src="../images/logo.jpeg" alt="INDUSQA Logo">
+                </a>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <a href="contact.html" class="cta-button">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="blog-header">
+            <div class="container">
+                <h1>Our Blog & Insights</h1>
+                <p>Stay updated with the latest in quality management and security standards.</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div id="blogContainer" class="blog-grid">
+                <!-- Blog posts will be loaded here dynamically -->
+                <div class="loading">Loading insights...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 INDUSQA. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('../data/blogs.json')
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('blogContainer');
+                    container.innerHTML = '';
+                    data.posts.forEach(post => {
+                        const card = document.createElement('div');
+                        card.className = 'blog-card';
+                        card.innerHTML = `
+                            <img src="${post.image}" alt="${post.title}">
+                            <div class="blog-card-content">
+                                <div class="blog-date">${new Date(post.date).toLocaleDateString()} | ${post.author}</div>
+                                <h3 class="blog-title">${post.title}</h3>
+                                <p class="blog-excerpt">${post.content.substring(0, 100)}...</p>
+                                <a href="blog-detail.html?slug=${post.slug}" class="read-more">Read Full Article →</a>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error loading blogs:', err);
+                    document.getElementById('blogContainer').innerHTML = '<p>Unable to load blog posts at this time.</p>';
+                });
+        });
+    </script>
+    <script src="../js/main.js"></script>
+</body>
+</html>
