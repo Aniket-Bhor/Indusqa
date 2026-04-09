@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const inc = target / speed;
 
                 if (count < target) {
-                    stat.innerText = Math.ceil(count + inc);
+                    stat.innerText = Math.ceil(count + inc) + (target >= 20 ? '+' : '');
                     setTimeout(updateCount, 1);
                 } else {
-                    stat.innerText = target;
+                    stat.innerText = target + '+';
                 }
             };
             updateCount();
