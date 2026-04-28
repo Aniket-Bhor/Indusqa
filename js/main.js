@@ -20,22 +20,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Stats Counter Animation
     const animateStats = () => {
         const stats = document.querySelectorAll('.stat-number');
-        const speed = 200;
+        const duration = 2000; // Total duration in ms
 
         stats.forEach(stat => {
-            const updateCount = () => {
-                const target = +stat.getAttribute('data-target');
-                const count = +stat.innerText;
-                const inc = target / speed;
+            const target = +stat.getAttribute('data-target');
+            let start = 0;
+            const startTime = performance.now();
 
-                if (count < target) {
-                    stat.innerText = Math.ceil(count + inc) + (target >= 20 ? '+' : '');
-                    setTimeout(updateCount, 1);
+            const updateCount = (timestamp) => {
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smoother feel (easeOutExpo)
+                const easedProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                
+                const currentCount = Math.floor(easedProgress * target);
+                stat.innerText = currentCount + (target >= 20 ? '+' : '');
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
                 } else {
                     stat.innerText = target + '+';
                 }
             };
-            updateCount();
+            requestAnimationFrame(updateCount);
         });
     };
 
@@ -44,15 +52,53 @@ document.addEventListener('DOMContentLoaded', () => {
     if (statsSection) {
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
-                animateStats();
+                // Wait a bit or trigger when more visible
+                setTimeout(() => {
+                    animateStats();
+                }, 200); 
                 observer.unobserve(statsSection);
             }
-        }, { threshold: 0.5 });
+        }, { 
+            threshold: 0.7, // Trigger when 70% of the section is visible
+            rootMargin: '0px 0px -50px 0px' // Slight offset to trigger closer to middle
+        });
         observer.observe(statsSection);
-    }
+     }
+ 
+    // 4. Approach Steps Reveal Animation
+    const approachSteps = document.querySelectorAll('.approach-step');
+    if (approachSteps.length > 0) {
+        const approachObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Add stagger delay
+                    setTimeout(() => {
+                        entry.target.classList.add('revealed');
+                    }, index * 100);
+                    approachObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
 
-    // 4. Easter Eggs
-    // Konami Code: Up Up Down Down Left Right Left Right B A
+        approachSteps.forEach(step => approachObserver.observe(step));
+     }
+ 
+    // 5. General Fade-In Animation
+    const fadeElements = document.querySelectorAll('.fade-in-up');
+    if (fadeElements.length > 0) {
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+    }
+     // 4. Easter Eggs
+     // Konami Code: Up Up Down Down Left Right Left Right B A
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
     let konamiIndex = 0;
 

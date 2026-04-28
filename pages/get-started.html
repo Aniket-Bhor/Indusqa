@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started | INDUSQA - Start Your Compliance Journey</title>
+    <link rel="icon" type="image/png" href="../images/logo.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .get-started-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            padding: 120px 0 80px 0;
+            align-items: center;
+        }
+        .intro-content h1 {
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+        .intro-content p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        .form-card {
+            background: var(--white);
+            padding: 50px 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        .reassurance-note {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #777;
+            text-align: center;
+        }
+        .trust-section {
+            padding: 60px 0;
+            background: var(--light-bg);
+            text-align: center;
+        }
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .step {
+            padding: 20px;
+        }
+        .step i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        .form-group input.error, .form-group select.error, .form-group textarea.error {
+            border-color: #e74c3c;
+            background-color: #fff9f9;
+        }
+        .form-group input.valid, .form-group select.valid, .form-group textarea.valid {
+            border-color: #2ecc71;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .message-box {
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            display: none;
+            animation: slideDown 0.4s ease;
+            text-align: center;
+            font-weight: 500;
+        }
+        .message-box.success, #formMsg.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .message-box.error, #formMsg.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            .get-started-container {
+                grid-template-columns: 1fr;
+                padding: 100px 0 40px 0;
+            }
+            .intro-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="../index.html" class="logo">
+                    <img src="../images/logo.png" alt="INDUSQA Logo">
+                </a>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+                <a href="get-started.html" class="cta-button primary-cta">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="get-started-container">
+                <div class="intro-content">
+                    <h1>Start Your Compliance Journey with INDUSQA</h1>
+                    <p>Ready to elevate your business standards? Whether you need expert consulting, professional training, rigorous audits, or end-to-end certification support, our team is here to guide you every step of the way.</p>
+                    <ul class="benefit-list" style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 15px;"><i class="fas fa-check-circle" style="color: var(--secondary-color); margin-right: 10px;"></i> Personalized consultation for your specific industry.</li>
+                        <li style="margin-bottom: 15px;"><i class="fas fa-check-circle" style="color: var(--secondary-color); margin-right: 10px;"></i> Expert guidance on international standards.</li>
+                        <li style="margin-bottom: 15px;"><i class="fas fa-check-circle" style="color: var(--secondary-color); margin-right: 10px;"></i> Seamless path to global certifications.</li>
+                    </ul>
+                </div>
+                <div class="form-card">
+                    <div id="formMsg"></div>
+                    <form id="consultForm" novalidate>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" name="name" placeholder="Enter your full name" required>
+                            <span class="error-message">Please enter your full name</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" name="company" placeholder="Enter your company name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" placeholder="Enter your business email" required>
+                            <span class="error-message">Please enter a valid email address</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" name="phone" placeholder="Enter your phone number" required>
+                            <span class="error-message">Please enter a valid phone number (min 10 digits)</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Service Required</label>
+                            <select name="service" required>
+                                <option value="" disabled selected>Select a service</option>
+                                <option value="Consulting">Consulting</option>
+                                <option value="Training">Training</option>
+                                <option value="Audit">Audit</option>
+                                <option value="Certification">Certification Support</option>
+                            </select>
+                            <span class="error-message">Please select a service</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Message / Requirements</label>
+                            <textarea name="message" rows="4" placeholder="Briefly describe your requirements"></textarea>
+                        </div>
+                        <button type="submit" class="cta-button" style="width: 100%; border: none; cursor: pointer; font-size: 1.1rem;">Request Consultation</button>
+                        <p class="reassurance-note"><i class="fas fa-clock"></i> We typically respond to all inquiries within 24 hours.</p>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <section class="trust-section">
+            <div class="container">
+                <h2>Our Seamless Process</h2>
+                <div class="process-steps">
+                    <div class="step">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>1. Request</h3>
+                        <p>Submit your details and requirements through our form.</p>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-comments"></i>
+                        <h3>2. Consult</h3>
+                        <p>Our experts reach out for a detailed discovery call.</p>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>3. Strategy</h3>
+                        <p>We propose a tailored roadmap for your compliance goals.</p>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-rocket"></i>
+                        <h3>4. Execute</h3>
+                        <p>We begin the implementation and support phase.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;">
+                <div class="footer-section">
+                    <h3>INDUSQA</h3>
+                    <p style="color: rgba(255,255,255,0.7);">Your partner in excellence and international standards for over 30 years.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links" style="list-style: none; padding: 0;">
+                        <li><a href="../index.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Home</a></li>
+                        <li><a href="about.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">About Us</a></li>
+                        <li><a href="services.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Services</a></li>
+                        <li><a href="contact.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;"><strong>Registered Office:</strong><br><i class="fas fa-map-marker-alt"></i> 403, Falcon Court, Hari Om Nagar, Off Eastern Expressway, Mulund (E), Mumbai-400081</p>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 10px;"><strong>Workspace:</strong><br><i class="fas fa-building"></i> WeWork Zenia, Hiranandani Estate, Thane West, Maharashtra 400607</p>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 10px;"><i class="fas fa-phone"></i> Dhanesh Khatwani &ndash; 98201 00988</p>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;"><i class="fas fa-envelope"></i> support@indusqa.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom" style="padding-top: 20px;">
+                <p>&copy; 2026 INDUSQA &ndash; All rights reserved | Designed By <a href="https://punktuate.in" target="_blank" style="color: var(--secondary-color); font-weight: 600;">Punktuate.in</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function() {
+            emailjs.init("m3tdqd7ICRpyNgXxu");
+        })();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let f = document.getElementById("consultForm");
+            
+            function showMsg(type, text) {
+                let m = document.getElementById("formMsg");
+                m.innerText = text;
+                m.className = type;
+                m.style.display = 'block';
+            }
+
+            const showError = (input, show) => {
+                const group = input.closest('.form-group');
+                const msg = group.querySelector('.error-message');
+                if (show) {
+                    input.classList.add('error');
+                    input.classList.remove('valid');
+                    if (msg) msg.style.display = 'block';
+                } else {
+                    input.classList.remove('error');
+                    input.classList.add('valid');
+                    if (msg) msg.style.display = 'none';
+                }
+            };
+
+            const validate = () => {
+                let isValid = true;
+                const inputs = f.querySelectorAll('input[required], select[required]');
+                
+                inputs.forEach(input => {
+                    if (input.name === 'email') {
+                        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!re.test(input.value)) {
+                            showError(input, true);
+                            isValid = false;
+                        } else {
+                            showError(input, false);
+                        }
+                    } else if (input.name === 'phone') {
+                        const phone = input.value.replace(/\D/g, '');
+                        if (phone.length < 10) {
+                            showError(input, true);
+                            isValid = false;
+                        } else {
+                            showError(input, false);
+                        }
+                    } else {
+                        if (!input.value.trim()) {
+                            showError(input, true);
+                            isValid = false;
+                        } else {
+                            showError(input, false);
+                        }
+                    }
+                });
+                return isValid;
+            };
+
+            f.addEventListener("submit", function(e) {
+                e.preventDefault();
+                
+                if (!validate()) {
+                    showMsg("error", "Please fix the errors in the form.");
+                    document.getElementById("formMsg").scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+
+                let d = {
+                    name: f.name.value,
+                    company: f.company.value,
+                    email: f.email.value,
+                    phone: f.phone.value,
+                    service: f.service.value,
+                    message: f.message.value
+                };
+
+                let b = f.querySelector("button");
+                b.disabled = true;
+                b.innerText = "Sending...";
+                b.style.opacity = '0.7';
+
+                emailjs.send("service_wst3d2j", "template_xuzljcm", d)
+                    .then(function(res) {
+                        console.log("SUCCESS", res);
+                        showMsg("success", "Your consultation request has been submitted successfully. Our team will contact you within 24 hours.");
+                        f.reset();
+                        f.querySelectorAll('.valid').forEach(el => el.classList.remove('valid'));
+                        b.disabled = false;
+                        b.innerText = "Request Consultation";
+                        b.style.opacity = '1';
+                        document.getElementById("formMsg").scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, function(err) {
+                        console.log("FAILED", err);
+                        showMsg("error", "Something went wrong. Please try again or contact us directly.");
+                        b.disabled = false;
+                        b.innerText = "Request Consultation";
+                        b.style.opacity = '1';
+                    });
+            });
+
+            // Live validation on blur
+            f.querySelectorAll('input, select').forEach(input => {
+                input.addEventListener('blur', () => {
+                    if (input.hasAttribute('required')) {
+                        if (input.name === 'email') {
+                            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            showError(input, !re.test(input.value));
+                        } else if (input.name === 'phone') {
+                            const phone = input.value.replace(/\D/g, '');
+                            showError(input, phone.length < 10);
+                        } else {
+                            showError(input, !input.value.trim());
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="../js/main.js"></script>
+</body>
+</html>
