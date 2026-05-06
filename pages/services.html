@@ -68,7 +68,15 @@
                 <ul class="nav-links">
                     <li><a href="../index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="services.html">Services</a></li>
+                    <li class="dropdown">
+                        <a href="services.html">Services <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#data-privacy">Data Privacy</a></li>
+                            <li><a href="#data-protection">Data Protection & Trust</a></li>
+                            <li><a href="#quality-excellence">Quality / Excellence</a></li>
+                            <li><a href="#ehs">Environment, Health & Safety</a></li>
+                        </ul>
+                    </li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                 </ul>
@@ -95,7 +103,7 @@
                 <div class="service-card" style="text-align: center; padding: 40px; background: var(--white); border-radius: var(--border-radius); box-shadow: var(--box-shadow);">
                     <i class="fas fa-chalkboard-teacher" style="font-size: 3rem; color: var(--secondary-color); margin-bottom: 20px;"></i>
                     <h3>Training</h3>
-                    <p>Expert-led training programs for quality management, information security, and education systems (ISO 21001 / NABET).</p>
+                    <p>Expert-led training programs for quality management, information security, and data privacy standards.</p>
                 </div>
                 <div class="service-card" style="text-align: center; padding: 40px; background: var(--white); border-radius: var(--border-radius); box-shadow: var(--box-shadow);">
                     <i class="fas fa-search-dollar" style="font-size: 3rem; color: var(--secondary-color); margin-bottom: 20px;"></i>
@@ -110,15 +118,16 @@
             </div>
         </section>
 
-        <section id="quality-management" class="service-detail-section">
+        <section id="quality-excellence" class="service-detail-section">
             <div class="container service-flex">
                 <div class="service-content">
-                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Quality & Service Management</span>
+                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Quality & Excellence</span>
                     <h2 style="font-size: 2.5rem; margin: 15px 0;">Excellence in Operations</h2>
                     <p>We help you implement robust management systems that drive consistency, efficiency, and customer satisfaction across your organization. Our expertise ensures your processes are optimized for global standards.</p>
                     <ul class="benefit-list">
                         <li><i class="fas fa-check-circle"></i> ISO 9001:2015 (Quality Management)</li>
                         <li><i class="fas fa-check-circle"></i> ISO 20000-1 (IT Service Management)</li>
+                        <li><i class="fas fa-check-circle"></i> CMMI (Dev/SVC) V3.0</li>
                         <li><i class="fas fa-check-circle"></i> Process Maturity & Optimization</li>
                     </ul>
                 </div>
@@ -128,26 +137,43 @@
             </div>
         </section>
 
-        <section id="security-privacy" class="service-detail-section">
+        <section id="data-privacy" class="service-detail-section">
             <div class="container service-flex">
                 <div class="service-content">
-                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Information Security & Privacy</span>
-                    <h2 style="font-size: 2.5rem; margin: 15px 0;">Data Protection & Trust</h2>
-                    <p>Protect your sensitive information and maintain stakeholder trust with our comprehensive security and privacy compliance solutions. We guide you through the complexities of global data regulations.</p>
+                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Data Privacy</span>
+                    <h2 style="font-size: 2.5rem; margin: 15px 0;">Privacy Management & Compliance</h2>
+                    <p>Ensure compliance with global data privacy regulations and build trust with your customers through our comprehensive privacy management solutions.</p>
                     <ul class="benefit-list">
-                        <li><i class="fas fa-check-circle"></i> ISO 27001 (Information Security)</li>
                         <li><i class="fas fa-check-circle"></i> ISO 27701 (Privacy Management)</li>
-                        <li><i class="fas fa-check-circle"></i> GDPR & DPDPA Compliance</li>
-                        <li><i class="fas fa-check-circle"></i> SOC 2 Type I & II Reporting</li>
+                        <li><i class="fas fa-check-circle"></i> GDPR (General Data Protection Regulation)</li>
+                        <li><i class="fas fa-check-circle"></i> DPDPA 2023 (Digital Personal Data Protection Act)</li>
                     </ul>
                 </div>
                 <div class="service-image">
-                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80" alt="Security and Privacy">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Data Privacy">
                 </div>
             </div>
         </section>
 
-        <section id="ehs-standards" class="service-detail-section">
+        <section id="data-protection" class="service-detail-section">
+            <div class="container service-flex">
+                <div class="service-content">
+                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Data Protection & Trust</span>
+                    <h2 style="font-size: 2.5rem; margin: 15px 0;">Security & Compliance</h2>
+                    <p>Protect your sensitive information and maintain stakeholder trust with our comprehensive security and compliance solutions. We guide you through the complexities of global data regulations.</p>
+                    <ul class="benefit-list">
+                        <li><i class="fas fa-check-circle"></i> ISO 27001 (Information Security)</li>
+                        <li><i class="fas fa-check-circle"></i> SOC 2 Type I & II Reporting</li>
+                        <li><i class="fas fa-check-circle"></i> HIPAA Compliance (Healthcare)</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80" alt="Data Protection">
+                </div>
+            </div>
+        </section>
+
+        <section id="ehs" class="service-detail-section">
             <div class="container service-flex">
                 <div class="service-content">
                     <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Environment, Health & Safety</span>
@@ -160,43 +186,6 @@
                 </div>
                 <div class="service-image">
                     <img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=800&q=80" alt="EHS Standards">
-                </div>
-            </div>
-        </section>
-
-        <section id="industry-standards" class="service-detail-section">
-            <div class="container service-flex">
-                <div class="service-content">
-                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Industry-Specific Standards</span>
-                    <h2 style="font-size: 2.5rem; margin: 15px 0;">Tailored Compliance Solutions</h2>
-                    <p>Navigate complex regulatory landscapes with specialized standards designed for your specific industry sector, from healthcare to high-tech manufacturing.</p>
-                    <ul class="benefit-list">
-                        <li><i class="fas fa-check-circle"></i> CMMI (Dev/SVC) V3.0</li>
-                        <li><i class="fas fa-check-circle"></i> ISO 21001 (Educational Organizations)</li>
-                        <li><i class="fas fa-check-circle"></i> NABET Accreditation Support</li>
-                        <li><i class="fas fa-check-circle"></i> HIPAA Compliance (Healthcare)</li>
-                    </ul>
-                </div>
-                <div class="service-image">
-                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Industry Standards">
-                </div>
-            </div>
-        </section>
-
-        <section id="training-systems" class="service-detail-section">
-            <div class="container service-flex">
-                <div class="service-content">
-                    <span style="color: var(--secondary-color); font-weight: 700; text-transform: uppercase;">Education & Training</span>
-                    <h2 style="font-size: 2.5rem; margin: 15px 0;">Education and Training Management Systems</h2>
-                    <p>We specialize in implementing ISO 21001 and NABET standards for educational institutions, ensuring a culture of excellence and structured learning environments.</p>
-                    <ul class="benefit-list">
-                        <li><i class="fas fa-check-circle"></i> Better alignment of educational goals</li>
-                        <li><i class="fas fa-check-circle"></i> Enhanced credibility of the institution</li>
-                        <li><i class="fas fa-check-circle"></i> Consistent process for learner development</li>
-                    </ul>
-                </div>
-                <div class="service-image">
-                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80" alt="Education Training">
                 </div>
             </div>
         </section>
