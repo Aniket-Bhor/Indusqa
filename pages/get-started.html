@@ -151,6 +151,7 @@
                             <li><a href="services.html#data-protection">Data Protection & Trust</a></li>
                             <li><a href="services.html#quality-excellence">Quality / Excellence</a></li>
                             <li><a href="services.html#ehs">Environment, Health & Safety</a></li>
+                            <li><a href="services.html#education">Education</a></li>
                         </ul>
                     </li>
                     <li><a href="blog.html">Blog</a></li>
@@ -196,15 +197,23 @@
                             <span class="error-message">Please enter a valid phone number (min 10 digits)</span>
                         </div>
                         <div class="form-group">
-                            <label>Service Required</label>
-                            <select name="service" required>
-                                <option value="" disabled selected>Select a service</option>
-                                <option value="Consulting">Consulting</option>
-                                <option value="Training">Training</option>
-                                <option value="Audit">Audit</option>
-                                <option value="Certification">Certification Support</option>
+                            <label>Select Standard</label>
+                            <select name="standard" required>
+                                <option value="" disabled selected>Select a standard</option>
+                                <option value="ISO 9001">ISO 9001</option>
+                                <option value="ISO 20000-1">ISO 20000-1</option>
+                                <option value="CMMI">CMMI</option>
+                                <option value="ISO 27001">ISO 27001</option>
+                                <option value="SOC2">SOC2</option>
+                                <option value="HIPAA">HIPAA</option>
+                                <option value="ISO 27701">ISO 27701</option>
+                                <option value="GDPR">GDPR</option>
+                                <option value="DPDPA">DPDPA</option>
+                                <option value="ISO 14001">ISO 14001</option>
+                                <option value="ISO 45001">ISO 45001</option>
+                                <option value="ISO 21001">ISO 21001</option>
                             </select>
-                            <span class="error-message">Please select a service</span>
+                            <span class="error-message">Please select a standard</span>
                         </div>
                         <div class="form-group">
                             <label>Message / Requirements</label>
@@ -265,7 +274,7 @@
                 <div class="footer-section">
                     <h3>Contact Us</h3>
                     <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;"><strong>Registered Office:</strong><br><i class="fas fa-map-marker-alt"></i> 403, Falcon Court, Hari Om Nagar, Off Eastern Expressway, Mulund (E), Mumbai-400081</p>
-                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 10px;"><strong>Workspace:</strong><br><i class="fas fa-building"></i> WeWork Zenia, Hiranandani Estate, Thane West, Maharashtra 400607</p>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 10px;"><strong>Workspace:</strong><br><i class="fas fa-building"></i> WeWork Zenia</p>
                     <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 10px;"><i class="fas fa-phone"></i> Dhanesh Khatwani &ndash; 98201 00988</p>
                     <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;"><i class="fas fa-envelope"></i> support@indusqa.com</p>
                 </div>
@@ -353,7 +362,7 @@
                     company: f.company.value,
                     email: f.email.value,
                     phone: f.phone.value,
-                    service: f.service.value,
+                    standard: f.standard.value,
                     message: f.message.value
                 };
 
