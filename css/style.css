@@ -494,6 +494,11 @@ section:not(:last-of-type)::after {
 @media (max-width: 991px) {
     .menu-toggle {
         display: block;
+        order: 3;
+    }
+    
+    nav {
+        position: relative;
     }
     
     .nav-links {
@@ -527,12 +532,23 @@ section:not(:last-of-type)::after {
         margin-top: 10px;
     }
     
+    .primary-cta {
+        display: none;
+    }
+    
     section {
         padding: 50px 0;
     }
     
     .approach-grid, .services-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 991px) {
+    .about-grid {
+        grid-template-columns: 1fr !important;
+        gap: 30px;
     }
 }
 
