@@ -533,7 +533,7 @@ section:not(:last-of-type)::after {
     }
     
     .primary-cta {
-        display: none;
+        display: none !important;
     }
     
     section {
@@ -562,7 +562,7 @@ section:not(:last-of-type)::after {
     }
     
     .hero {
-        height: 75vh;
+        min-height: 80vh;
         padding-top: 70px;
     }
     
@@ -619,7 +619,7 @@ section:not(:last-of-type)::after {
     }
     
     .hero {
-        height: 70vh;
+        min-height: 100vh;
     }
     
     .hero h1 {

@@ -11,7 +11,7 @@
     <style>
         /* Hero Section */
         .hero {
-            height: 90vh;
+            min-height: 100vh;
             background: linear-gradient(rgba(26, 42, 68, 0.8), rgba(26, 42, 68, 0.8)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80');
             background-size: cover;
             background-position: center;
@@ -19,7 +19,8 @@
             align-items: center;
             color: var(--white);
             text-align: center;
-            padding-top: 80px;
+            padding-top: 100px;
+            padding-bottom: 50px;
         }
 
         .hero h1 {
@@ -49,8 +50,9 @@
         /* Hero Section Responsive */
         @media (max-width: 991px) {
             .hero {
-                height: 75vh;
-                padding-top: 70px;
+                min-height: 85vh;
+                padding-top: 90px;
+                padding-bottom: 50px;
             }
             .hero h1 {
                 font-size: 2.5rem;
@@ -63,7 +65,9 @@
 
         @media (max-width: 768px) {
             .hero {
-                height: 70vh;
+                min-height: 80vh;
+                padding-top: 80px;
+                padding-bottom: 40px;
             }
             .hero h1 {
                 font-size: 1.8rem;
@@ -75,7 +79,9 @@
 
         @media (max-width: 576px) {
             .hero {
-                height: 65vh;
+                min-height: 100vh;
+                padding-top: 80px;
+                padding-bottom: 40px;
             }
             .hero h1 {
                 font-size: 1.6rem;
