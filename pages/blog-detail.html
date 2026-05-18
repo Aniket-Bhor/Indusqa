@@ -55,26 +55,26 @@
     <header>
         <div class="container">
             <nav>
-                <a href="../index.html" class="logo">
+                <a href=".." class="logo">
                     <img src="../images/logo.png" alt="INDUSQA Logo">
                 </a>
                 <ul class="nav-links">
-                    <li><a href="../index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
+                    <li><a href="..">Home</a></li>
+                    <li><a href="about">About</a></li>
                     <li class="dropdown">
-                        <a href="services.html">Services <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
+                        <a href="services">Services <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="services.html#data-privacy">Data Privacy</a></li>
-                            <li><a href="services.html#data-protection">Data Protection & Trust</a></li>
-                            <li><a href="services.html#quality-excellence">Quality & Excellence</a></li>
-                            <li><a href="services.html#ehs">Environment, Health & Safety</a></li>
-                            <li><a href="services.html#education">Education</a></li>
+                            <li><a href="services#data-privacy">Data Privacy</a></li>
+                            <li><a href="services#data-protection">Data Protection & Trust</a></li>
+                            <li><a href="services#quality-excellence">Quality & Excellence</a></li>
+                            <li><a href="services#ehs">Environment, Health & Safety</a></li>
+                            <li><a href="services#education">Education</a></li>
                         </ul>
                     </li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="blog">Blog</a></li>
+                    <li><a href="contact">Contact Us</a></li>
                 </ul>
-                <a href="get-started.html" class="cta-button primary-cta">Get Started</a>
+                <a href="get-started" class="cta-button primary-cta">Get Started</a>
                 <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
             </nav>
         </div>
@@ -97,11 +97,11 @@
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <ul class="footer-links" style="list-style: none; padding: 0;">
-                        <li><a href="../index.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Home</a></li>
-                        <li><a href="about.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">About Us</a></li>
-                        <li><a href="services.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Services</a></li>
-                        <li><a href="get-started.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Get Started</a></li>
-                        <li><a href="contact.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Contact Us</a></li>
+                        <li><a href=".." style="color: rgba(255,255,255,0.7); text-decoration: none;">Home</a></li>
+                        <li><a href="about" style="color: rgba(255,255,255,0.7); text-decoration: none;">About Us</a></li>
+                        <li><a href="services" style="color: rgba(255,255,255,0.7); text-decoration: none;">Services</a></li>
+                        <li><a href="get-started" style="color: rgba(255,255,255,0.7); text-decoration: none;">Get Started</a></li>
+                        <li><a href="contact" style="color: rgba(255,255,255,0.7); text-decoration: none;">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -260,7 +260,7 @@
                 postContainer.innerHTML = `
                     <div class="post-header">
                         <div class="container">
-                            <a href="blog.html" class="back-to-blog">← Back to Insights</a>
+                            <a href="blog" class="back-to-blog">← Back to Insights</a>
                             <div class="post-meta">${new Date(post.date).toLocaleDateString()} | By ${post.author}</div>
                             <h1 class="post-title">${post.title}</h1>
                         </div>
@@ -288,7 +288,7 @@
                         if (localPost) {
                             renderPost(localPost);
                         } else {
-                            postContainer.innerHTML = '<div class="container" style="padding: 150px 0; text-align: center;"><h1>Post Not Found</h1><a href="blog.html" class="cta-button">Back to Blog</a></div>';
+                            postContainer.innerHTML = '<div class="container" style="padding: 150px 0; text-align: center;"><h1>Post Not Found</h1><a href="blog" class="cta-button">Back to Blog</a></div>';
                         }
                     }
                 })
