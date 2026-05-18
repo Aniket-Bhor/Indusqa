@@ -114,6 +114,41 @@
             box-shadow: var(--box-shadow);
             border-radius: 8px;
         }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .logo {
+                margin-bottom: 20px !important;
+            }
+            .admin-nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+                padding: 0;
+            }
+            .admin-nav li {
+                margin-bottom: 0;
+            }
+            .admin-main {
+                margin-left: 0;
+                padding: 15px;
+            }
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
     </style>
 </head>
 <body class="admin-body">
