@@ -149,7 +149,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="services.html#data-privacy">Data Privacy</a></li>
                             <li><a href="services.html#data-protection">Data Protection & Trust</a></li>
-                            <li><a href="services.html#quality-excellence">Quality / Excellence</a></li>
+                            <li><a href="services.html#quality-excellence">Quality & Excellence</a></li>
                             <li><a href="services.html#ehs">Environment, Health & Safety</a></li>
                             <li><a href="services.html#education">Education</a></li>
                         </ul>
@@ -261,7 +261,7 @@
             <div class="footer-content" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;">
                 <div class="footer-section">
                     <h3>INDUSQA</h3>
-                    <p style="color: rgba(255,255,255,0.7);">Your partner in excellence and international standards for over 30 years.</p>
+                    <p style="color: rgba(255,255,255,0.7);">Your partner in excellence and international standards for over 30+ years.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Quick Links</h3>
@@ -276,8 +276,9 @@
                     <h3>Contact Us</h3>
                     <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;"><strong>Registered Office:</strong><br><i class="fas fa-map-marker-alt"></i> 403, Falcon Court, Hari Om Nagar, Off Eastern Expressway, Mulund (E), Mumbai-400081</p>
                     <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 10px;"><strong>Workspace:</strong><br><i class="fas fa-building"></i> WeWork Zenia</p>
-                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 10px;"><i class="fas fa-phone"></i> Dhanesh Khatwani &ndash; 98201 00988</p>
-                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;"><i class="fas fa-envelope"></i> support@indusqa.com</p>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 10px;"><i class="fas fa-phone"></i> <a href="tel:+919820100988" style="color: inherit; text-decoration: none;">Dhanesh Khatwani: +91 9820100988</a></p>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;"><i class="fas fa-envelope"></i> <a href="mailto:support@indusqa.com" style="color: inherit; text-decoration: none;">support@indusqa.com</a></p>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 10px;"><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/company/indusqa/" target="_blank" style="color: inherit; text-decoration: none;">LinkedIn</a></p>
                 </div>
             </div>
             <div class="footer-bottom" style="padding-top: 20px;">
@@ -285,6 +286,136 @@
             </div>
         </div>
     </footer>
+
+    <div id="cookieBanner" class="cookie-banner">
+        <div class="cookie-content">
+            <p>We use cookies to enhance your experience on our website. By continuing to browse, you agree to our use of cookies.</p>
+            <div class="cookie-buttons">
+                <button id="acceptCookies" class="cookie-btn accept">Accept</button>
+                <button id="declineCookies" class="cookie-btn decline">Decline</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            z-index: 9999;
+            max-width: 90%;
+            width: 800px;
+            display: none;
+        }
+        
+        .cookie-banner.show {
+            display: block;
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        
+        .cookie-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .cookie-content p {
+            margin: 0;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+        
+        .cookie-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .cookie-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .cookie-btn.accept {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .cookie-btn.accept:hover {
+            background: #e85a4f;
+            transform: translateY(-2px);
+        }
+        
+        .cookie-btn.decline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .cookie-btn.decline:hover {
+            border-color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 600px) {
+            .cookie-banner {
+                width: 95%;
+                bottom: 10px;
+                padding: 16px 20px;
+            }
+            
+            .cookie-buttons {
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieBanner = document.getElementById('cookieBanner');
+            const acceptBtn = document.getElementById('acceptCookies');
+            const declineBtn = document.getElementById('declineCookies');
+            
+            const consent = localStorage.getItem('cookieConsent');
+            
+            if (!consent) {
+                setTimeout(() => {
+                    cookieBanner.classList.add('show');
+                }, 1000);
+            }
+            
+            acceptBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'accepted');
+                cookieBanner.classList.remove('show');
+            });
+            
+            declineBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'declined');
+                cookieBanner.classList.remove('show');
+            });
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>

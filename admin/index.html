@@ -59,6 +59,33 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+        .file-upload-area {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .file-upload-area:hover {
+            border-color: var(--secondary-color);
+            background: #fff5f4;
+        }
+        .image-preview {
+            max-width: 200px;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: none;
+        }
+        .image-preview.show {
+            display: block;
+        }
+        .or-divider {
+            text-align: center;
+            margin: 15px 0;
+            color: #888;
+            font-weight: 600;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -78,6 +105,7 @@
         }
         .btn-primary { background-color: var(--secondary-color); color: white; }
         .btn-danger { background-color: #dc3545; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
         .login-container {
             max-width: 400px;
             margin: 100px auto;
@@ -111,7 +139,6 @@
             </div>
             <ul class="admin-nav">
                 <li><a href="#" class="active" onclick="showTab('blogs')"><i class="fas fa-newspaper"></i> Blogs</a></li>
-                <li><a href="#" onclick="showTab('messages')"><i class="fas fa-envelope"></i> Messages</a></li>
                 <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </aside>
@@ -132,8 +159,20 @@
                             <input type="text" id="blogTitle" required>
                         </div>
                         <div class="form-group">
-                            <label>Image URL (Optional)</label>
-                            <input type="text" id="blogImage">
+                            <label>Author</label>
+                            <input type="text" id="blogAuthor" placeholder="Enter author name">
+                        </div>
+                        <div class="form-group">
+                            <label>Image (Optional)</label>
+                            <div class="file-upload-area" onclick="document.getElementById('blogImageFile').click()">
+                                <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #888; margin-bottom: 10px;"></i>
+                                <p><strong>Click to upload an image</strong></p>
+                                <small style="color: #888;">JPG, PNG, GIF (Max 5MB)</small>
+                                <input type="file" id="blogImageFile" accept="image/*" style="display: none;">
+                            </div>
+                            <img id="imagePreview" class="image-preview">
+                            <div class="or-divider">OR</div>
+                            <input type="text" id="blogImage" placeholder="Or paste image URL here...">
                         </div>
                         <div class="form-group">
                             <label>Content</label>
@@ -141,7 +180,7 @@
                         </div>
                         <div style="display: flex; gap: 10px;">
                             <button type="submit" id="submitBtn" class="btn btn-primary">Publish Blog</button>
-                            <button type="button" id="cancelBtn" class="btn" style="display: none; background: #6c757d; color: white;" onclick="resetForm()">Cancel Edit</button>
+                            <button type="button" id="cancelBtn" class="btn btn-secondary" style="display: none;" onclick="resetForm()">Cancel Edit</button>
                         </div>
                     </form>
                 </div>
@@ -158,25 +197,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Blogs will be listed here -->
                         </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="messagesTab" class="tab-content" style="display: none;">
-                <div class="admin-card">
-                    <h3>Contact Form Submissions</h3>
-                    <table id="messageTable">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Message</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
                     </table>
                 </div>
             </div>
@@ -184,7 +205,6 @@
     </div>
 
     <script>
-        // Simple Auth Logic
         const loginForm = document.getElementById('loginForm');
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -203,7 +223,6 @@
             document.getElementById('loginSection').style.display = 'none';
             document.getElementById('dashboardSection').style.display = 'block';
             loadBlogs();
-            loadMessages();
         }
 
         function logout() {
@@ -219,15 +238,12 @@
             event.currentTarget.classList.add('active');
         }
 
-        // Blog Management (LocalStorage for Prototype)
         async function loadBlogs() {
-            // Load from JSON first if not already in LocalStorage
             if (!localStorage.getItem('indusqa_static_loaded')) {
                 try {
                     const res = await fetch('../data/blogs.json');
                     const data = await res.json();
                     let existing = JSON.parse(localStorage.getItem('indusqa_blogs') || '[]');
-                    // Add static blogs if they don't exist by slug
                     data.posts.forEach(p => {
                         if (!existing.find(e => e.slug === p.slug)) {
                             existing.push(p);
@@ -272,22 +288,47 @@
             
             document.getElementById('editIndex').value = index;
             document.getElementById('blogTitle').value = blog.title;
+            document.getElementById('blogAuthor').value = blog.author || '';
             document.getElementById('blogImage').value = blog.image || '';
             document.getElementById('blogContent').value = blog.content;
             
+            if (blog.image && !blog.image.startsWith('http')) {
+                document.getElementById('imagePreview').src = blog.image;
+                document.getElementById('imagePreview').classList.add('show');
+            }
+            
             document.getElementById('formTitle').innerText = 'Edit Blog Post';
             document.getElementById('submitBtn').innerText = 'Update Blog';
-            document.getElementById('cancelBtn').style.display = 'block';
+            document.getElementById('cancelBtn').style.display = 'inline-block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function resetForm() {
             document.getElementById('blogForm').reset();
             document.getElementById('editIndex').value = '';
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('imagePreview').classList.remove('show');
             document.getElementById('formTitle').innerText = 'Add New Blog Post';
             document.getElementById('submitBtn').innerText = 'Publish Blog';
             document.getElementById('cancelBtn').style.display = 'none';
         }
+
+        document.getElementById('blogImageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('imagePreview').src = event.target.result;
+                    document.getElementById('imagePreview').classList.add('show');
+                    document.getElementById('blogImage').value = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
         document.getElementById('blogForm').addEventListener('submit', (e) => {
             e.preventDefault();
@@ -299,7 +340,7 @@
                 image: document.getElementById('blogImage').value,
                 content: document.getElementById('blogContent').value,
                 date: editIndex !== "" ? JSON.parse(localStorage.getItem('indusqa_blogs'))[editIndex].date : new Date().toLocaleDateString(),
-                author: 'Admin',
+                author: document.getElementById('blogAuthor').value || 'Admin',
                 slug: title.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '')
             };
             
@@ -317,23 +358,6 @@
             alert(editIndex !== "" ? 'Blog updated successfully!' : 'Blog published successfully!');
         });
 
-        function loadMessages() {
-            const messages = JSON.parse(localStorage.getItem('contact_submissions') || '[]');
-            const tbody = document.querySelector('#messageTable tbody');
-            tbody.innerHTML = '';
-            messages.forEach(msg => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${msg.name}</td>
-                    <td>${msg.email}</td>
-                    <td>${msg.message}</td>
-                    <td>${new Date(msg.date).toLocaleDateString()}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // Check login on load
         if (localStorage.getItem('admin_logged_in') === 'true') {
             showDashboard();
         }
