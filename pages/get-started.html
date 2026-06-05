@@ -288,6 +288,9 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
     <script>
         (function() {
             emailjs.init("PzkccUeOrNNhKwnSZ");
@@ -376,6 +379,7 @@
                 emailjs.send("service_aagetnl", "template_e7982h3", d)
                     .then(function(res) {
                         console.log("SUCCESS", res);
+                        saveToFirebase(d);
                         showMsg("success", "Your consultation request has been submitted successfully. Our team will contact you within 24 hours.");
                         f.reset();
                         f.querySelectorAll('.valid').forEach(el => el.classList.remove('valid'));
@@ -385,6 +389,7 @@
                         document.getElementById("formMsg").scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, function(err) {
                         console.log("FAILED", err);
+                        saveToFirebase(d);
                         showMsg("error", "Something went wrong. Please try again or contact us directly.");
                         b.disabled = false;
                         b.innerText = "Request Consultation";
@@ -408,6 +413,28 @@
                     }
                 });
             });
+
+            function saveToFirebase(formData) {
+                const consultationData = {
+                    name: formData.name,
+                    company: formData.company,
+                    email: formData.email,
+                    phone: formData.phone,
+                    standard: formData.standard,
+                    message: formData.message,
+                    createdAt: Date.now(),
+                    status: "new"
+                };
+
+                const consultationsRef = database.ref('consultations');
+                consultationsRef.push(consultationData)
+                    .then(() => {
+                        console.log("Consultation saved to Firebase successfully");
+                    })
+                    .catch((error) => {
+                        console.warn("Failed to save consultation to Firebase:", error);
+                    });
+            }
         });
     </script>
     <script src="../js/main.js"></script>

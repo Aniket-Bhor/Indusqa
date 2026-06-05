@@ -173,8 +173,9 @@
                 <img src="../images/logo.png" alt="INDUSQA" style="filter: brightness(0) invert(1);">
             </div>
             <ul class="admin-nav">
-                <li><a href="#" class="active" onclick="showTab('blogs')"><i class="fas fa-newspaper"></i> Blogs</a></li>
-                <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><a href="#" class="active" onclick="showTab('blogs'); return false;"><i class="fas fa-newspaper"></i> Blogs</a></li>
+                <li><a href="#" onclick="showTab('consultations'); return false;"><i class="fas fa-comments"></i> Consultations</a></li>
+                <li><a href="#" onclick="logout(); return false;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </aside>
 
@@ -232,6 +233,28 @@
                             </tr>
                         </thead>
                         <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="consultationsTab" class="tab-content" style="display: none;">
+                <div class="admin-card">
+                    <h3>Consultation Requests</h3>
+                    <div id="consultationsError" class="message-box error" style="display: none;"></div>
+                    <div id="consultationsEmpty" class="message-box" style="display: none; background-color: #e9ecef; color: #495057;">No consultation requests found.</div>
+                    <table id="consultationsTable" style="margin-top: 20px;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Company</th>
+                                <th>Email</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="consultationsTableBody">
                         </tbody>
                     </table>
                 </div>
@@ -393,10 +416,133 @@
             alert(editIndex !== "" ? 'Blog updated successfully!' : 'Blog published successfully!');
         });
 
+        function loadConsultations() {
+            const consultationsRef = database.ref('consultations');
+            consultationsRef.orderByChild('createdAt').limitToLast(100).on('value', (snapshot) => {
+                const consultations = [];
+                snapshot.forEach((childSnapshot) => {
+                    const consultation = childSnapshot.val();
+                    consultation.id = childSnapshot.key;
+                    consultations.push(consultation);
+                });
+
+                // Sort newest first
+                consultations.sort((a, b) => b.createdAt - a.createdAt);
+
+                const tbody = document.getElementById('consultationsTableBody');
+                const errorDiv = document.getElementById('consultationsError');
+                const emptyDiv = document.getElementById('consultationsEmpty');
+                const table = document.getElementById('consultationsTable');
+
+                errorDiv.style.display = 'none';
+                emptyDiv.style.display = 'none';
+                table.style.display = 'table';
+                tbody.innerHTML = '';
+
+                if (consultations.length === 0) {
+                    emptyDiv.style.display = 'block';
+                    table.style.display = 'none';
+                    return;
+                }
+
+                consultations.forEach((consultation) => {
+                    const tr = document.createElement('tr');
+                    const date = new Date(consultation.createdAt).toLocaleDateString();
+                    tr.innerHTML = `
+                        <td>${escapeHtml(consultation.name)}</td>
+                        <td>${escapeHtml(consultation.company || '-')}</td>
+                        <td>${escapeHtml(consultation.email)}</td>
+                        <td>${date}</td>
+                        <td><span style="display: inline-block; padding: 3px 10px; background-color: #ffc107; color: #000; border-radius: 4px; font-size: 0.8rem;">${escapeHtml(consultation.status)}</span></td>
+                        <td>
+                            <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="viewConsultation('${consultation.id}')">View</button>
+                            <button class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;" onclick="deleteConsultation('${consultation.id}')">Delete</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }, (error) => {
+                console.error("Error loading consultations:", error);
+                document.getElementById('consultationsError').innerText = "Failed to load consultations: " + error.message;
+                document.getElementById('consultationsError').style.display = 'block';
+                document.getElementById('consultationsTable').style.display = 'none';
+                document.getElementById('consultationsEmpty').style.display = 'none';
+            });
+        }
+
+        function viewConsultation(id) {
+            const consultationRef = database.ref('consultations/' + id);
+            consultationRef.once('value', (snapshot) => {
+                const consultation = snapshot.val();
+                if (!consultation) {
+                    alert("Consultation not found!");
+                    return;
+                }
+
+                const date = new Date(consultation.createdAt).toLocaleString();
+                const message = `
+Name: ${consultation.name}
+Company: ${consultation.company || '-'}
+Email: ${consultation.email}
+Phone: ${consultation.phone}
+Standard: ${consultation.standard}
+Date: ${date}
+Message:
+${consultation.message}
+                `;
+                alert(message);
+            }, (error) => {
+                console.error("Error viewing consultation:", error);
+                alert("Failed to load consultation details.");
+            });
+        }
+
+        function deleteConsultation(id) {
+            if (!confirm('Are you sure you want to delete this consultation request?')) {
+                return;
+            }
+
+            const consultationRef = database.ref('consultations/' + id);
+            consultationRef.remove()
+                .then(() => {
+                    console.log("Consultation deleted successfully");
+                })
+                .catch((error) => {
+                    console.error("Error deleting consultation:", error);
+                    alert("Failed to delete consultation: " + error.message);
+                });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Modify showDashboard to also load consultations
+        const originalShowDashboard = showDashboard;
+        showDashboard = function() {
+            originalShowDashboard();
+            loadConsultations();
+        };
+
+        // Modify showTab to handle consultations tab
+        const originalShowTab = showTab;
+        showTab = function(tabName) {
+            originalShowTab(tabName);
+            if (tabName === 'consultations') {
+                loadConsultations();
+            }
+        };
+
         if (localStorage.getItem('admin_logged_in') === 'true') {
             showDashboard();
         }
     </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </body>
 </html>
