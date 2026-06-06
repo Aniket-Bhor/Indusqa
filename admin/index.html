@@ -106,6 +106,42 @@
         .btn-primary { background-color: var(--secondary-color); color: white; }
         .btn-danger { background-color: #dc3545; color: white; }
         .btn-secondary { background-color: #6c757d; color: white; }
+        .forgot-password-link {
+            text-align: center;
+            margin-top: 15px;
+            display: block;
+            color: var(--secondary-color);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-overlay.show {
+            display: flex;
+        }
+        .modal {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            max-width: 450px;
+            width: 90%;
+        }
+        .modal h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
         .login-container {
             max-width: 400px;
             margin: 100px auto;
@@ -156,15 +192,60 @@
         <h2 style="text-align: center; margin-bottom: 30px;">Admin Login</h2>
         <form id="loginForm">
             <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="username" required>
+                <label>Email</label>
+                <input type="email" id="loginEmail" required>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="password" required>
+                <input type="password" id="loginPassword" required>
             </div>
             <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            <a href="#" class="forgot-password-link" onclick="openForgotPasswordModal(event)">Forgot Password?</a>
         </form>
+    </div>
+
+    <!-- Forgot Password Modal - Step 1: Email -->
+    <div id="forgotPasswordModal" class="modal-overlay">
+        <div class="modal">
+            <h3>Forgot Password</h3>
+            <div id="forgotPasswordStep1">
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label>Admin Email</label>
+                        <input type="email" id="forgotEmail" required>
+                    </div>
+                    <div class="message-box error" id="forgotEmailError" style="display: none;"></div>
+                    <div class="message-box success" id="forgotEmailSuccess" style="display: none;"></div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary">Send OTP</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeForgotPasswordModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Forgot Password Modal - Step 2: OTP & New Password -->
+            <div id="forgotPasswordStep2" style="display: none;">
+                <form id="resetPasswordForm">
+                    <div class="form-group">
+                        <label>Enter OTP</label>
+                        <input type="text" id="otpInput" maxlength="6" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <div class="message-box error" id="resetPasswordError" style="display: none;"></div>
+                    <div class="message-box success" id="resetPasswordSuccess" style="display: none;"></div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary">Reset Password</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeForgotPasswordModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div id="dashboardSection" style="display: none;">
@@ -262,18 +343,73 @@
         </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <script>
-        const loginForm = document.getElementById('loginForm');
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
+        (function() {
+            emailjs.init("PzkccUeOrNNhKwnSZ");
+        })();
+    </script>
+    <script>
+        let adminData = null;
 
-            if (user === 'admin' && pass === 'indusqa2026') {
-                localStorage.setItem('admin_logged_in', 'true');
-                showDashboard();
+        // Initialize Firebase admin node if it doesn't exist
+        async function initializeAdmin() {
+            const adminRef = database.ref('admin');
+            const snapshot = await adminRef.once('value');
+            if (!snapshot.exists()) {
+                await adminRef.set({
+                    email: "dhanesh.indusqa@gmail.com",
+                    password: "indusqa2026",
+                    lastPasswordChange: Date.now()
+                });
+                adminData = {
+                    email: "dhanesh.indusqa@gmail.com",
+                    password: "indusqa2026",
+                    lastPasswordChange: Date.now()
+                };
             } else {
-                alert('Invalid credentials!');
+                adminData = snapshot.val();
+                // Check if email needs to be updated
+                if (adminData.email !== "dhanesh.indusqa@gmail.com") {
+                    await adminRef.update({
+                        email: "dhanesh.indusqa@gmail.com"
+                    });
+                    adminData.email = "dhanesh.indusqa@gmail.com";
+                }
+            }
+        }
+
+        // Load admin data on page load
+        initializeAdmin().catch(error => {
+            console.error("Error initializing admin:", error);
+        });
+
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                if (!adminData) {
+                    const adminRef = database.ref('admin');
+                    const snapshot = await adminRef.once('value');
+                    adminData = snapshot.val();
+                }
+
+                if (email === adminData.email && password === adminData.password) {
+                    localStorage.setItem('admin_logged_in', 'true');
+                    showDashboard();
+                } else {
+                    alert('Invalid credentials!');
+                }
+            } catch (error) {
+                console.error("Login error:", error);
+                alert('Failed to login. Please try again.');
             }
         });
 
@@ -295,6 +431,149 @@
             document.getElementById(tabName + 'Tab').style.display = 'block';
             event.currentTarget.classList.add('active');
         }
+
+        // Forgot Password Functions
+        function openForgotPasswordModal(e) {
+            e.preventDefault();
+            document.getElementById('forgotPasswordModal').classList.add('show');
+            document.getElementById('forgotPasswordStep1').style.display = 'block';
+            document.getElementById('forgotPasswordStep2').style.display = 'none';
+            document.getElementById('forgotEmailError').style.display = 'none';
+            document.getElementById('forgotEmailSuccess').style.display = 'none';
+            document.getElementById('resetPasswordError').style.display = 'none';
+            document.getElementById('resetPasswordSuccess').style.display = 'none';
+            document.getElementById('forgotPasswordForm').reset();
+            document.getElementById('resetPasswordForm').reset();
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.remove('show');
+            sessionStorage.removeItem('otp');
+            sessionStorage.removeItem('otpTimestamp');
+        }
+
+        // Generate 6-digit OTP
+        function generateOTP() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        // Check if OTP is expired (10 minutes)
+        function isOTPExpired() {
+            const otpTimestamp = sessionStorage.getItem('otpTimestamp');
+            if (!otpTimestamp) return true;
+            const now = Date.now();
+            const tenMinutes = 10 * 60 * 1000;
+            return (now - parseInt(otpTimestamp)) > tenMinutes;
+        }
+
+        // Forgot password form submission - send OTP
+        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+        forgotPasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('forgotEmail').value;
+            const errorDiv = document.getElementById('forgotEmailError');
+            const successDiv = document.getElementById('forgotEmailSuccess');
+
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            try {
+                if (!adminData) {
+                    const adminRef = database.ref('admin');
+                    const snapshot = await adminRef.once('value');
+                    adminData = snapshot.val();
+                }
+
+                if (email !== adminData.email) {
+                    errorDiv.innerText = 'Email not found. Please enter the admin email.';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+
+                const otp = generateOTP();
+                sessionStorage.setItem('otp', otp);
+                sessionStorage.setItem('otpTimestamp', Date.now().toString());
+
+                // Send OTP via EmailJS
+                await emailjs.send("service_aagetnl", "template_hxuuvvq", { otp: otp });
+
+                successDiv.innerText = 'OTP sent to your email! Please check your inbox.';
+                successDiv.style.display = 'block';
+
+                setTimeout(() => {
+                    document.getElementById('forgotPasswordStep1').style.display = 'none';
+                    document.getElementById('forgotPasswordStep2').style.display = 'block';
+                }, 1500);
+
+            } catch (error) {
+                console.error("Error sending OTP:", error);
+                errorDiv.innerText = 'Failed to send OTP. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        });
+
+        // Reset password form submission
+        const resetPasswordForm = document.getElementById('resetPasswordForm');
+        resetPasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const otp = document.getElementById('otpInput').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorDiv = document.getElementById('resetPasswordError');
+            const successDiv = document.getElementById('resetPasswordSuccess');
+
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            try {
+                // Validate OTP
+                const storedOTP = sessionStorage.getItem('otp');
+                if (!storedOTP || isOTPExpired()) {
+                    errorDiv.innerText = 'OTP expired or invalid. Please request a new OTP.';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+
+                if (otp !== storedOTP) {
+                    errorDiv.innerText = 'Invalid OTP. Please try again.';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+
+                // Validate passwords
+                if (newPassword !== confirmPassword) {
+                    errorDiv.innerText = 'Passwords do not match.';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+
+                // Update password in Firebase
+                const adminRef = database.ref('admin');
+                await adminRef.update({
+                    password: newPassword,
+                    lastPasswordChange: Date.now()
+                });
+
+                adminData.password = newPassword;
+                adminData.lastPasswordChange = Date.now();
+
+                successDiv.innerText = 'Password reset successfully! Redirecting to login...';
+                successDiv.style.display = 'block';
+
+                // Clear OTP
+                sessionStorage.removeItem('otp');
+                sessionStorage.removeItem('otpTimestamp');
+
+                setTimeout(() => {
+                    closeForgotPasswordModal();
+                }, 2000);
+
+            } catch (error) {
+                console.error("Error resetting password:", error);
+                errorDiv.innerText = 'Failed to reset password. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        });
 
         async function loadBlogs() {
             if (!localStorage.getItem('indusqa_static_loaded')) {
@@ -540,9 +819,5 @@ ${consultation.message}
             showDashboard();
         }
     </script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="../js/firebase-config.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </body>
 </html>
